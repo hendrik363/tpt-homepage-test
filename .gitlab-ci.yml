@@ -4,9 +4,6 @@ stages:
 deploy:
   stage: deploy
   script:
-    - whoami
-    - pwd
-    - ls -lah
     - sudo mv index.html /var/www/html/index.html
   tags:
     - tpt-ec1
