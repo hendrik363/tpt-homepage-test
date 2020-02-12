@@ -25,6 +25,8 @@ review:start:
     - branches
   except:
     - master
+  tags:
+    - tpt-ec1
   environment:
     name: review/$CI_COMMIT_REF_SLUG
     url: "http://ec2-13-53-44-83.eu-north-1.compute.amazonaws.com/$CI_COMMIT_REF_SLUG/"
