@@ -1,12 +1,10 @@
 stages:
+  - review
   - deploy
 
 deploy:
   stage: deploy
   script:
-    - whoami
-    - pwd
-    - ls -lah
     - sudo mv index.html /var/www/html/index.html
   tags:
     - tpt-ec1
@@ -15,3 +13,18 @@ deploy:
   environment:
     name: test
     url: http://ec2-13-53-44-83.eu-north-1.compute.amazonaws.com/
+
+review:start:
+  stage: review
+  variables:
+    DEPLOY_DIR: "/var/www/html/$CI_COMMIT_REF_SLUG"
+  script:
+    - sudo mkdir -p "$DEPLOY_DIR"
+    - sudo mv index.html "$DEPLOY_DIR/index.html"
+  only:
+    - branches
+  except:
+    - master
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    url: "http://ec2-13-53-44-83.eu-north-1.compute.amazonaws.com/$CI_COMMIT_REF_SLUG/"
